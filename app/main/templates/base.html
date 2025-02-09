@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    {% if title %}
+    <title>{{ title }}</title>
+    {% else %}
+    <title>DnD Encounter App</title>
+    {% endif %}
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+        crossorigin="anonymous">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=MedievalSharp&display=swap" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('dropdown-toggle').dropdown()
+        });
+        </script>
+        {{ moment.include_moment() }}
+  </head>
+  <body>
+    
+    
+      <div class="container mt-3" style ="background-color: #d796d1dd;">
+        {% if not current_user.is_anonymous %}
+          <a class="navbar-brand custom-brand ms-2" href="{{ url_for('main.index') }}">DnD_Encounter_App</a>
+          <a class="navbar-brand custom-brand ms-3" href="{{ url_for('main.index') }}">Home</a>
+          <a class="navbar-brand custom-brand ms-3" href="{{ url_for('main.create_monster_groups') }}">Add_Monsters</a>
+          <a class="navbar-brand custom-brand ms-3" href="{{ url_for('main.create_player_groups') }}">Add_Players</a>
+          <a class="navbar-brand custom-brand ms-3" href="{{ url_for('main.create_combat') }}">Create_Combat</a>
+          <a class="navbar-brand custom-brand ms-3" href="{{ url_for('main.combat_summary') }}">View_All_Combats</a>
+          <a class="navbar-brand custom-brand ms-3" href="{{ url_for('auth.logout') }}">Logout</a>
+        {%else %}
+          <a class="navbar-brand custom-brand ms-2" href="{{ url_for('main.index') }}">DnD_Encounter_App</a>
+          <a class="navbar-brand custom-brand ms-4" href="{{ url_for('main.index') }}">Home</a>
+          <a class="navbar-brand custom-brand ms-4" href="{{ url_for('auth.login') }}">Login</a>
+          <button class="navbar-toggler" type="button">
+              <span class="navbar-toggler-icon"></span>
+          </button>
+        {%endif %}
+      </div>
+      
+
+      
+    <div class="container mt-3" style="background-color: #d796d1dd;">
+      {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        {% for message in messages %}
+        <div class="alert alert-info" role="alert">{{ message }}</div>
+        {% endfor %}
+      {% endif %}
+      {% endwith %}
+      {% block content %}{% endblock %}
+    </div>
+    <script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+    crossorigin="anonymous">
+    </script>
+</body>
+</html>

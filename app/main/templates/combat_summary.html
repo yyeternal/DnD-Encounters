@@ -1,0 +1,75 @@
+{%extends "base.html"%}
+
+{%block content%}
+<h1 class="text-center my-4">Combat Summary</h1>
+
+<div class="container">
+    <div class="row justify-content-center">
+        {% for combat in combats %}
+            <div class="col-md-5 col-sm-10 mb-4"> 
+                <div class="card combat-card shadow-sm">
+                    <div class="card-body">
+                        <h3 class="card-title text-center">Combat {{ loop.index }}</h3>
+                        <hr>
+                        <div class="combat-details text-center">
+                            {% if combat.multiplier < 0.40 %}
+                                <p class="win-easy"><strong>The PCs will easily win</strong></p>
+                            {% elif combat.multiplier < 0.60 %}
+                                <p class="win-easy"><strong>The PCs will win, but with a few scratches</strong></p>
+                            {% elif combat.multiplier < 0.75 %}
+                                <p class="win-easy"><strong>The PCs will win, but someone might lose an arm</strong></p>
+                            {% elif combat.multiplier < 0.90 %}
+                                <p class="win-easy"><strong>The PCs will probably win, but someone is going night night</strong></p>
+                            {% elif combat.multiplier < 1.01 %}
+                                <p class="text-danger"><strong>Eh, it's like 50/50, but you're a gambler, right?</strong></p>
+                            {% else %}
+                                <p class="text-danger"><strong>Tell them they're gonna be playing new characters</strong></p>
+                            {% endif %}
+
+                            <p><strong>Multiplier:</strong> {{ combat.multiplier | round(2) }}</p>
+                            
+                            <form action="{{ url_for('main.combat_summary') }}" method="POST" style="display:inline;">
+                                {{form.hidden_tag()}}
+                                <input type="hidden" name="combat_id" value="{{ combat.id }}">
+                                <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this combat?')">
+                                    Delete Combat
+                                </button>
+                            </form>
+
+                            <a href="{{ url_for('main.view_combat', combat_id=combat.id) }}" class="btn btn-primary ">
+                                View Combat
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% else %}
+            <p class="text-center">No combats found.</p>
+        {% endfor %}
+    </div>
+
+    <div class="total-cost summary-box">
+        <h4>By the End of the Adventuring Day:</h4>
+        {% if total_cost <= 2 %}
+            <p>The party will be perfectly fine.</p>
+        {% elif total_cost <= 4 %}
+            <p>Some spells will have been used, but nothing major.</p>
+        {% elif total_cost <= 6 %}
+            <p>About 30% of spells and resources will have been used.</p>
+        {% elif total_cost <= 9 %}
+            <p>Half of spell slots and features will have been used.</p>
+        {% elif total_cost <= 12 %}
+            <p>They'll have like a first-level spell slot and a dream.</p>
+        {% elif total_cost <= 15 %}
+            <p>Don't send anything else at them, please.</p>
+        {% else %}
+            <p>I mean they're probably already dead, so I guess they have no resources left.</p>
+        {% endif %}
+        <hr>
+        <strong>Total Cost:</strong> {{ total_cost }}
+    </div>
+
+    <hr>
+    <p class="text-center text-muted"><b>But of course, this is trivial for Rolen.</b></p>
+</div>
+{% endblock %}

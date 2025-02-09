@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <h1>Create an Account</h1>
+    <form action="{{ url_for('auth.register') }}" method="POST" class="space-y-4">
+        {{ form.hidden_tag() }}
+
+        <!-- Username Field -->
+        <div>
+            {{ form.username.label(class="label") }}
+            {{ form.username(class="input") }}
+            {% for error in form.username.errors %}
+                <span class="error">* {{ error }}</span>
+            {% endfor %}
+        </div>
+
+        <!-- Password Field -->
+        <div>
+            {{ form.password.label(class="label") }}
+            {{ form.password(class="input") }}
+            {% for error in form.password.errors %}
+                <span class="error">* {{ error }}</span>
+            {% endfor %}
+        </div>
+        <div>
+            {{ form.password2.label(class="label") }}
+            {{ form.password2(class="input") }}
+            {% for error in form.password2.errors %}
+                <span class="error">* {{ error }}</span>
+            {% endfor %}
+        </div>
+
+        <!-- Submit Button -->
+        <div>
+            {{ form.submit(class="submit") }}
+        </div>
+    </form>
+
+    <p class="text-center text-gray-600 mt-4 text-sm">
+        Already have an account? 
+        <a href="{{ url_for('auth.login') }}" class="login-link">Login here</a>
+    </p>
+</div>
+{% endblock %}

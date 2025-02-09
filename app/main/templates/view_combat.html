@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Combat Details</h1>
+
+    <h3>Player Groups</h3>
+    <ul>
+        {% for player in combat.player_groups %}
+            <li>Level {{ player.level }} - {{ player.quantity }} Player(s) (Power: {{ player.power }})</li>
+            {% else %}
+            <li>No player groups found.</li>
+        {% endfor %}
+    </ul>
+
+    <h3>Monster Groups</h3>
+    <ul>
+        {% for monster in combat.monster_groups %}
+            <li>CR {{ monster.challenge_rating }} - {{ monster.quantity }} Monster(s) (Power: {{ monster.power }})</li>
+        {% endfor %}
+    </ul>
+
+    <h3>Combat Metrics</h3>
+    <p><strong>Multiplier:</strong> {{ combat.multiplier | round(2) }}</p>
+    <p><strong>Cost:</strong> {{ combat.cost }}</p>
+
+    <a href="{{ url_for('main.combat_summary') }}" class="btn-secondary custom-gap">Back to Summary</a>
+{% endblock %}

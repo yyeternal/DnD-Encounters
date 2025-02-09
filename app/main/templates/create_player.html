@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Create Multiple Player Groups</h2>
+
+<form method="POST" action="" class="monster-form">
+    {{ form.hidden_tag() }}
+
+    <div id="monster-group-list">
+        {% for subform in form.player_groups %}
+            <div class="monster-row">
+                <div class="form-group">
+                    {{ subform.level.label }}
+                    {{ subform.level(class="form-control") }}
+                </div>
+                <div class="form-group">
+                    {{ subform.quantity.label }}
+                    {{ subform.quantity(class="form-control", min="1") }}
+                </div>
+                <button type="button" class="btn btn-remove" onclick="removePlayerGroup(this)">Remove</button>
+            </div>
+        {% endfor %}
+    </div>
+
+    <button type="button" id="add-monster-group-btn" class="btn btn-add">Add Another Group</button>
+    {{ form.submit(class="btn btn-submit", type="submit") }}
+</form>
+
+<script>
+    document.getElementById('add-monster-group-btn').addEventListener('click', function () {
+        let groupList = document.getElementById('monster-group-list');
+        let index = groupList.children.length;
+
+        let newEntry = document.createElement('div');
+        newEntry.classList.add("monster-row");
+        newEntry.innerHTML = `
+            <div class="form-group">
+                <label>Level:</label>
+                <input type="number" name="player_groups-${index}-level" class="form-control" min="1" required>
+            </div>
+
+            <div class="form-group">
+                <label>Number of Players:</label>
+                <input type="number" name="player_groups-${index}-quantity" class="form-control" min="1" required>
+            </div>
+
+            <button type="button" class="btn btn-remove" onclick="removePlayerGroup(this)">Remove</button>
+        `;
+        groupList.appendChild(newEntry);
+    });
+
+    function removePlayerGroup(button) {
+        let groupList = document.getElementById('monster-group-list');
+        if (groupList.children.length > 1) {
+            button.parentElement.remove();
+            reindexGroups();
+        } else {
+            alert("You must have at least one player group.");
+        }
+    }
+
+    function reindexGroups() {
+        const groupList = document.getElementById('monster-group-list');
+        Array.from(groupList.children).forEach((child, index) => {
+            child.querySelector('select[name^="player_groups-"]').name = `player_groups-${index}-level`;
+            child.querySelector('input[name^="player_groups-"]').name = `player_groups-${index}-quantity`;
+        });
+    }
+</script>
+{% endblock %}
