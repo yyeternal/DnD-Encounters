@@ -47,7 +47,7 @@ def create_monster_groups():
                 print(f"Error creating monster groups: {e}")
 
             flash("Monster groups created successfully!", "success")
-            return redirect(url_for('main.index'))
+            return redirect(url_for('main.create_player_groups'))
 
         except Exception as e:
             db.session.rollback()
@@ -89,7 +89,7 @@ def create_player_groups():
                 print(f"Error creating player groups: {e}")
 
             flash("Player groups created successfully!", "success")
-            return redirect(url_for('main.index'))
+            return redirect(url_for('main.create_combat'))
 
         except Exception as e:
             db.session.rollback()
@@ -137,7 +137,7 @@ def create_combat():
         db.session.commit()
         
         flash("Combat successfully created!", 'success')
-        return redirect(url_for('main.index'))
+        return redirect(url_for('main.combat_summary'))
     
     return render_template('create_combat.html', form=form)
 
