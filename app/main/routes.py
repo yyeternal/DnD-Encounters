@@ -7,6 +7,8 @@ from app.main.models import MonsterGroup, PlayerGroup, Combat
 from app.main.forms import CreateMonsterForm, CreateMonsterGroupsForm, CreatePlayerGroupsForm, CreatePlayerForm, CreateCombatForm, FieldList, FormField, BooleanField, DeleteCombatForm
 import uuid
 import os
+from sqlalchemy.orm import joinedload
+
 
 @bp_main.route('/', methods=['GET'])
 @bp_main.route('/index', methods=['GET'])
@@ -166,9 +168,10 @@ def combat_summary():
 @bp_main.route('/combat/<combat_id>', methods=['GET'])
 @login_required
 def view_combat(combat_id):
-    combat = Combat.query.filter_by(id=combat_id, user_id=current_user.id).first_or_404()  
-    combat.player_groups  
-    combat.monster_groups
+    combat = Combat.query.options(
+        joinedload(Combat.player_groups),
+        joinedload(Combat.monster_groups)
+    ).filter_by(id=combat_id, user_id=current_user.id).first_or_404()
     return render_template('view_combat.html', combat=combat)
 
 @bp_main.route('/delete-player-group/<string:group_id>', methods=['POST'])

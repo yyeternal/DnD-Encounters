@@ -6,6 +6,7 @@ import sqlalchemy.orm as sqlo
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 
+
 combat_player_group = Table('combat_player_group', db.Model.metadata,
     sqla.Column('combat_id', sqla.String(9), sqla.ForeignKey('combat.id'), primary_key=True),
     sqla.Column('player_group_id', sqla.String(9), sqla.ForeignKey('player_group.id'), primary_key=True)
