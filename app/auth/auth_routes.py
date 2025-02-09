@@ -11,14 +11,6 @@ from app.auth.auth_forms import LoginForm, RegistrationForm
 
 from flask_login import login_user, current_user, logout_user, login_required
 from config import Config
-import identity.web
-
-authent = identity.web.Auth(
-        session=session,
-        authority=os.getenv("AUTHORITY"),
-        client_id=os.getenv("CLIENT_ID"),
-        client_credential=os.getenv("CLIENT_SECRET"),
-    )
 
 @bp_auth.route('/user/login', methods=['GET', 'POST'])
 def login():

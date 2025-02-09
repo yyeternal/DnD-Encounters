@@ -115,12 +115,14 @@ class Combat(db.Model):
         secondary=combat_player_group, 
         back_populates='combats',
         collection_class=list,
+        lazy='subquery'
     )
     monster_groups : sqlo.Mapped[list['MonsterGroup']] = sqlo.relationship(
         'MonsterGroup', 
         secondary=combat_monster_group, 
         back_populates='combats',
         collection_class=list,
+        lazy='subquery'
     )
 
     def __init__(self, id, user_id, multiplier=0.0, cost=0):

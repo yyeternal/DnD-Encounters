@@ -3,7 +3,6 @@ from config import Config
 from app.main.models import MonsterGroup, PlayerGroup, Combat
 import sqlalchemy as sqla
 import sqlalchemy.orm as sqlo
-import identity.web
 from flask_wtf.csrf import CSRFProtect
 
 #from flask_session import Session

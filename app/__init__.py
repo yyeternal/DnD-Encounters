@@ -5,8 +5,6 @@ from config import Config
 from flask_moment import Moment
 from flask_wtf.csrf import CSRFProtect
 from flask_login import LoginManager
-import identity.web
-import requests
 # from flask_session import Session
 from werkzeug.middleware.proxy_fix import ProxyFix
 
@@ -26,7 +24,6 @@ def create_app(config_class = Config):
 
     app.wsgi_app = ProxyFix(app.wsgi_app, x_proto=1, x_host=1)
 
-    app.jinja_env.globals.update(Auth=identity.web.Auth)  # Useful in template for B2C
 
     db.init_app(app)
     login_manager.init_app(app)
