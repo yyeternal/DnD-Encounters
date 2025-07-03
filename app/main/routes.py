@@ -71,7 +71,7 @@ def create_player_groups():
                 level = float(group_form['level'])
                 quantity = int(group_form['quantity'])
 
-                group_id = f"MG{uuid.uuid4().hex[:6].upper()}"
+                group_id = f"PG{uuid.uuid4().hex[:6].upper()}"
 
                 new_group = PlayerGroup(
                     level=level,
@@ -147,7 +147,7 @@ def create_combat():
 @login_required
 def combat_summary():
     combats = Combat.query.filter_by(user_id=current_user.id).all()           
-    total_cost = Combat.total_cost()
+    total_cost = Combat.total_cost(current_user.id)
     form = DeleteCombatForm()      
     if request.method == 'POST':
         combat_id = request.form.get('combat_id')  

@@ -155,7 +155,7 @@ class Combat(db.Model):
                 self.cost = 10
 
     @classmethod
-    def total_cost(cls):
-        return db.session.query(func.sum(cls.cost)).scalar() or 0
+    def total_cost(cls, user_id):
+        return db.session.query(func.sum(cls.cost)).filter_by(user_id=user_id).scalar() or 0
 
 
